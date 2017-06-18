@@ -1,6 +1,7 @@
 # DiscordSelfBot
 Selfbot for Discord Using 2 accounts
 Written in Python using discord.py.
+Requires Python 3.5 or higher, and discord.py.
 
 ## Why use 2 accounts?
 When you join many servers (70~), setting up a connection

@@ -11,6 +11,7 @@ with open('config.json') as json_file:
 
 my_token = config['my_token']
 bot_token = config['bot_token']
+myID = config['myID']
 prefix = config['prefix']
 colors = config['colors']
 spams = config['spams']
@@ -28,13 +29,13 @@ me.http.token = my_token
 
 @bot.event
 async def on_ready():
-    print('Logged in as {}'.format(bot.user.name))
-    print('Selfbot for {}'.format(me.user.name))
+    print('Logged in as {}, ID = {}'.format(bot.user.name, bot.user.id))
+    print('Selfbot for {}'.format(myID))
     print('------------------')
 
 @bot.event
 async def on_message(message):
-    if message.author.id != me.user.id:
+    if message.author.id != myID:
         return
     if not message.content.startswith(prefix):
         return
@@ -121,9 +122,9 @@ async def embed(message):
         list.append('')
     else:
         if list[2] in colors:
-            list[2] = discord.Color(colors.[list[2]])
+            list[2] = discord.Color(colors[list[2]])
         else:
-            list[2] = discord.Color(colors.['green'])
+            list[2] = discord.Color(colors['green'])
 
     em = discord.Embed(title=list[0], description=list[1], color=list[2])
     await me.send_message(ch, embed=em)
@@ -169,7 +170,7 @@ async def react(message):
     msg = None
     if len(list) < 3:
         async for log in bot.logs_from(ch, 5):
-            if log.author.id != me.user.id:
+            if log.author.id != myID:
                 msg = log
                 break
     else:
@@ -201,7 +202,7 @@ async def tag(message):
             mem = bot.get_member_named(list[2])
         else:
             async for log in bot.logs_from(ch, 5):
-                if log.author.id != me.user.id:
+                if log.author.id != myID:
                     mem = log.author
                     break
     if mem is None:
@@ -220,7 +221,7 @@ async def delete(message):
     await me.delete_message(message)
     list = []
     async for log in bot.logs_from(ch, 50):
-        if log.author.id == me.user.id:
+        if log.author.id == myID:
             list.append(log)
     if list == []:
         return
