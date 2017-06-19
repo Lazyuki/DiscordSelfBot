@@ -5,6 +5,7 @@ from discord import http
 import sys # for restart
 import os  # for restart
 import json
+from datetime import datetime as dt
 
 with open('config.json') as json_file:
     config = json.load(json_file)
@@ -29,8 +30,14 @@ me.http.token = my_token
 
 @bot.event
 async def on_ready():
-    print('Logged in as {}, ID = {}'.format(bot.user.name, bot.user.id))
-    print('Selfbot for {}'.format(myID))
+    print('Logged in as {}'.format(bot.user.name))
+    name = None
+    for server in bot.servers:
+        if server.get_member(myID):
+            name = server.get_member(myID).name
+            break
+    print('Selfbot for {}'.format(name))
+    print('Now: {}'.format(dt.now().strftime('%a %b %d, %X')))
     print('------------------')
 
 @bot.event
@@ -72,40 +79,40 @@ async def help(message):
     if len(list) == 2:
         content = list[1]
     if content == '':
-        await me.send_message(ch, 'Current commands are: d e g h r s t tag no \
-                              restart kill. `/h <command>`for more detail')
+        await me.send_message(ch, 'Current commands are: d e g h r t tag no '
+                              'restart kill. `/h <command>`for more detail')
     elif content == 'd':
-        await me.send_message(ch, 'Delete: `/d [num of messages to delete.]` \
-                              If no number was given, defaults to 1')
+        await me.send_message(ch, 'Delete: `/d [num of messages to delete.]` '
+                              'If no number was given, defaults to 1')
     elif content == 'e':
-        await me.send_message(ch, 'Embed: `/e [title] ; [description] ; \
-                              [color]` color defaults to green\nExample: \
-                              `/e This is title; This is description; red`')
+        await me.send_message(ch, 'Embed: `/e [title] ; [description] ; '
+                              '[color]` color defaults to green\nExample: '
+                              '`/e This is title; This is description; red`')
     elif content == 'g':
-        await me.send_message(ch, 'Get role ID: `/g <first few letters of a \
-                              role name (ignores case)>`')
+        await me.send_message(ch, 'Get role ID: `/g <first few letters of a '
+                              'role name (ignores case)>`')
     elif content == 'r':
-        await me.send_message(ch, 'React: `/r <a word with no spaces> [id]` \
-                              If no id was given it takes the first message \
-                              in the channel, which is not by me.\n \
-                              *Since it\'s a reaction, the word cannot contain\
-                               2 same letters.*')
+        await me.send_message(ch, 'React: `/r <a word with no spaces> [id]` '
+                              'If no id was given it takes the first message '
+                              'in the channel, which is not by me.\n '
+                              '*Since it\'s a reaction, the word cannot contain'
+                              ' 2 same letters.*')
     elif content == 't':
         await me.send_message(ch, 'tiles: `/t <tile message>`')
     elif content == 'tag':
-        await me.send_message(ch, 'tag: `/tag <first few letters of a \
-                              role name (case insensitive)> [name or mention]` \
-                              If no person was given, it looks up the last \
-                              person before the /tag message. \
-                              \nExample: `/tag mod @trustworthy-person`')
+        await me.send_message(ch, 'tag: `/tag <first few letters of a '
+                              'role name (case insensitive)> [name or mention]` '
+                              'If no person was given, it looks up the last '
+                              'person before the /tag message. '
+                              '\nExample: `/tag mod @trustworthy-person`')
     elif content == 'no':
-        await me.send_message(ch, 'notification: "Mark read" for the servers \
-                              in the spam servers list. (configure in \
-                              "config.ini")')
+        await me.send_message(ch, 'notification: "Mark read" for the servers '
+                              'in the spam servers list. (configure in '
+                              '"config.ini")')
     elif content == 'restart':
-        await me.send_message(ch, 'restart: restart the bot to apply any \
-                              changes made since starting this bot the \
-                              last time')
+        await me.send_message(ch, 'restart: restart the bot to apply any '
+                              'changes made since starting this bot the '
+                              'last time')
     elif content == 'kill':
         await me.send_message(ch, 'shutdown: shutdown the selfbot')
 
@@ -122,9 +129,9 @@ async def embed(message):
         list.append('')
     else:
         if list[2] in colors:
-            list[2] = discord.Color(colors[list[2]])
+            list[2] = discord.Color(int(colors[list[2]], 16))
         else:
-            list[2] = discord.Color(colors['green'])
+            list[2] = discord.Color(int(colors['green'], 16))
 
     em = discord.Embed(title=list[0], description=list[1], color=list[2])
     await me.send_message(ch, embed=em)
@@ -183,16 +190,17 @@ async def react(message):
 
 #tag
 async def tag(message):
-    list = message.content.split()
+    list = message.content.split() #TODO split with quotes, for roles with space
     if len(list) < 2:
         return
-    r = None
+    r = ' '.join(list[1:-1])
     roles = message.server.roles
     for role in roles:
         if role.name.lower().startswith(r):
             r = role
             break
-    if r is None:
+    else:
+        await me.delete_message(message)
         return
     mem = None
     if message.mentions != []:
@@ -206,10 +214,11 @@ async def tag(message):
                     mem = log.author
                     break
     if mem is None:
+        await me.delete_message(message)
         return
     await me.add_roles(mem, r)
-    await me.edit_message(message, 'hey {} you have the role \
-                          {} now'.format(mem.name, r.name))
+    await me.edit_message(message, 'hey {} you have the role '
+                          '{} now'.format(mem.name, r.name))
 
 
 #delete
@@ -239,7 +248,8 @@ async def gamerescape(message):
 #restart
 async def restart(message):
     await me.edit_message(message, 'bot will be back...')
-    print('restarting...')
+    print('Restarting...')
+    print('Now: {}'.format(dt.now().strftime('%a %b %d, %X')))
     print('-------------')
     await me.logout()
     await bot.logout()
