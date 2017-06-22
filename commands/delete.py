@@ -1,4 +1,8 @@
 import discord
+import globalVariables as gv
+
+bot = gv.bot
+me = gv.me
 
 aliases = ['d', 'del', 'delete']
 
@@ -7,7 +11,7 @@ usage = 'Delete: `/d [num of messages to delete.]` '\
 
 #delete
 # only looks up 50 recent logs in the chat.
-async def cmd(message, content, bot, me, help=False):
+async def cmd(message, content, help=False):
     if help:
         await me.edit_message(message, usage)
         return

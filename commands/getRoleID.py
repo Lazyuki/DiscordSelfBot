@@ -1,10 +1,14 @@
 import discord
+import globalVariables as gv
+
+bot = gv.bot
+me = gv.me
 
 aliases = ['g', 'getroleid']
 
 usage = 'Get the role ID: `/g <role name (ignores case)>`'
 
-async def cmd(message, content, bot, me, help=False):
+async def cmd(message, content, help=False):
     if help:
         await me.edit_message(message, usage)
         return

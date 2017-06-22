@@ -1,17 +1,16 @@
 import discord
-import json
 from discord import http
+import globalVariables as gv
 
-with open('config.json') as json_file:
-    config = json.load(json_file)
-
-spams = config['spams']
+bot = gv.bot
+me = gv.me
+spams = gv.spams
 
 aliases = ['no', 'mar', 'read', 'notif']
 
 usage = '"Mark As Read" the annoying servers. Configure in config.json'
 
-async def cmd(message, content, bot, me, help=False):
+async def cmd(message, content, help=False):
     if help:
         await me.edit_message(message, usage)
         return

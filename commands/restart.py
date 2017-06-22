@@ -1,12 +1,16 @@
 import discord
 import os
 import sys
+import globalVariables as gv
+
+bot = gv.bot
+me = gv.me
 
 aliases = ['rs', 'restart', 'reboot']
 
 usage = 'restarts the bot'
 
-async def cmd(message, content, bot, me, help=False):
+async def cmd(message, content, help=False):
     if help:
         await me.edit_message(message, usage)
         return

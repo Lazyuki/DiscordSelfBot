@@ -1,9 +1,9 @@
 import discord
-import json
+import globalVariables as gv
 
-with open('config.json') as json_file:
-    config = json.load(json_file)
-myID = config['myID']
+bot = gv.bot
+me = gv.me
+myID = gv.myID
 
 aliases = ['tag', 'give', 'assign']
 
@@ -11,7 +11,7 @@ usage = 'Assigns the role. `/tag <role name> [ <; name> or  @mention ]`'\
         ' That ";" is important if you want to type in plain names. '\
         'IF no mentions or names, it picks the last person who sent a message.'
 
-async def cmd(message, content, bot, me, help=False):
+async def cmd(message, content, help=False):
     if help:
         await me.edit_message(message, usage)
         return

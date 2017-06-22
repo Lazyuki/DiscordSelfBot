@@ -1,24 +1,21 @@
 import discord
 import asyncio
-from discord import Client
-import json
+import globalVariables as gv
 from datetime import datetime as dt
 from cmds import import_functions as imp
 
 cmds = imp() # import all the functions with their aliases
 
-with open('config.json') as json_file:
-    config = json.load(json_file)
+gv.cmds.update(cmds)
+myToken = gv.myToken
+botToken = gv.botToken
+myID = gv.myID
+prefix = gv.prefix
 
-my_token = config['my_token']
-bot_token = config['bot_token']
-myID = config['myID']
-prefix = config['prefix']
-
-bot = Client()
-me = Client()
-me.login(my_token, bot=False)
-me.http.token = my_token
+bot = gv.bot
+me = gv.me
+me.login(myToken, bot=False)
+me.http.token = myToken
 
 @bot.event
 async def on_ready():
@@ -41,30 +38,7 @@ async def on_message(message):
     msg = message.content
     command = msg.split()[0][1:]
     if cmds[command]:
-        await cmds[command](message, msg[len(command) + 2:], bot, me)
+        await cmds[command](message, msg[len(command) + 2:])
 
 
-async def help(message, content, bot, me, help=False):
-    if help:
-        await me.edit_message(message, '/h h... really man?...')
-        return
-    if content == '':
-        await me.edit_message(message, '`/h <command>` for more info. '\
-                              'Current commands are {}'.format(list(cmds.keys())))
-        return
-    if not content in cmds:
-        await me.edit_message(message, 'Command not found: {}'.format(content))
-        return
-    await cmds[content](message, content, bot, me, True)
-
-
-# These assign the help function to be called on_message
-cmds['h'] = help
-cmds['help'] = help
-
-try:
-    bot.run(bot_token, bot=False)
-except:
-    print('Error shutting down...')
-finally:
-    exit()
+bot.run(botToken, bot=False)

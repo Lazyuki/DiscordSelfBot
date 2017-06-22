@@ -1,4 +1,8 @@
 import discord
+import globalVariables as gv
+
+bot = gv.bot
+me = gv.me
 
 NUMS = ["zero", "one", "two", "three", "four", "five", "six",
         "seven", "eight", "nine"];
@@ -7,7 +11,7 @@ aliases = ['t', 'tile']
 
 usage = 'tile: `/t <tile message>`'
 
-async def cmd(message, content, bot, me, help=False):
+async def cmd(message, content, help=False):
     if help:
         await me.edit_message(message, usage)
         return

@@ -1,6 +1,6 @@
 {
-    "bot_token" : "<Token for your alt account, that works as a bot>",
-    "my_token" : "<Token for your main account. Google how to get Discord token>",
+    "botToken" : "<Token for your alt account, that works as a bot>",
+    "myToken" : "<Token for your main account. Google how to get Discord token>",
     "myID" : "<snowflake ID of your main account. (Turn on developer mode in settings,
                 and right click on your name => Copy ID)>", 
     "prefix" : "&", 

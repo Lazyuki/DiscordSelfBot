@@ -1,9 +1,9 @@
 import discord
-import json
+import globalVariables as gv
 
-with open('config.json') as json_file:
-    config = json.load(json_file)
-myID = config['myID']
+bot = gv.bot
+me = gv.me
+myID = gv.myID
 
 ALPHABETS = ["🇦","🇧","🇨","🇩","🇪","🇫","🇬","🇭","🇮","🇯","🇰","🇱","🇲","🇳",
              "🇴","🇵","🇶","🇷","🇸","🇹","🇺","🇻","🇼","🇽","🇾","🇿"];
@@ -15,7 +15,7 @@ usage = 'React: `/r <a word with no spaces> [id]` If no id was given '\
         '*Since it\'s a reaction, the word cannot contain 2 same letters.*'
 
 #react
-async def cmd(message, content, bot, me, help=False):
+async def cmd(message, content, help=False):
     if help:
         await me.edit_message(message, usage)
         return
