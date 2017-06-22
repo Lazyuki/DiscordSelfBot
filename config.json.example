@@ -3,19 +3,5 @@
     "myToken" : "<Token for your main account. Google how to get Discord token>",
     "myID" : "<snowflake ID of your main account. (Turn on developer mode in settings,
                 and right click on your name => Copy ID)>", 
-    "prefix" : "&", 
-    "colors" :
-        {
-             "red" : "f44242",
-             "orange" : "f4af41",
-             "yellow" : "f4e241",
-             "lime" : "d6f441",
-             "green" : "7ff441",
-             "cyan" : "41f4ee",
-             "blue" : "6b8bff",
-             "purple" : "996aff",
-             "pink" : "d269ff",
-             "salmon" : "ff69bb"
-        },
-    "spams" : ["ID for a server that pings you a lot", "another server"]
+    "prefix" : "/"
 }

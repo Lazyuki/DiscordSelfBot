@@ -4,7 +4,8 @@ import globalVariables as gv
 
 bot = gv.bot
 me = gv.me
-spams = gv.spams
+
+spams = ["298778712709529603","210132368810442753"]
 
 aliases = ['no', 'mar', 'read', 'notif']
 

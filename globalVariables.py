@@ -13,8 +13,6 @@ myToken = config['myToken']
 botToken = config['botToken']
 myID = config['myID']
 prefix = config['prefix']
-colors = config['colors']
-spams = config['spams']
 
 bot = discord.Client()
 me = discord.Client()

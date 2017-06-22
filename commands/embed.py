@@ -3,7 +3,19 @@ import globalVariables as gv
 
 bot = gv.bot
 me = gv.me
-colors = gv.colors
+
+colors = {
+    "red" : "f44242",
+    "orange" : "f4af41",
+    "yellow" : "f4e241",
+    "lime" : "d6f441",
+    "green" : "7ff441",
+    "cyan" : "41f4ee",
+    "blue" : "6b8bff",
+    "purple" : "996aff",
+    "pink" : "d269ff",
+    "salmon" : "ff69bb"
+}
 
 aliases = ['e', 'embed']
 
